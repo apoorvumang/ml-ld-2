@@ -36,6 +36,27 @@ def unpack_vector(sparse_vector, length):
 def sigma(z):
 	return 1.0/(1.0 + math.exp(-z))
 
+def sparse_mult(normal, sparse):
+	ans = 0.0
+	for key, value in sparse.items():
+		key = int(key)
+		value = float(value)
+		ans = ans + normal[key]*value
+	return ans
+
+def sparse_scalar_mult(sparse, k):
+	sparse2 = sparse.copy()
+	for key in sparse2:
+		sparse2[key] *= k
+	return sparse2
+
+def sparse_subtract(normal, sparse):
+	for key, value in sparse.items():
+		key = int(key)
+		value = float(value)
+		normal[key] -= value
+	return normal
+
 # parameters
 W = np.zeros((VOCAB_SIZE,), dtype=np.float)
 b = 0
@@ -45,30 +66,47 @@ vsigma = np.vectorize(sigma)
 data = []
 file = open(DATA_VECTORS_FILE_NAME, "r")
 
+count = 0
 for line in file.readlines():
 	line = json.loads(line)
 	data.append(line)
+	count = count + 1
+	if(count > 1000):
+		break
 
 for epoch in range(0,5):
 	J = 0
-	for i in range(0,1000):
+	for i in range(0,100):
 		instance = data[i]
+		# old
 		x = unpack_vector(instance['vector'], VOCAB_SIZE)
+		# new
+		x2 = instance['vector']
 		y = 0
 		if 3 in instance['classes']:
 			y = 1
-		z = np.dot(W,x) + b
+		# old
+		# z = np.dot(W,x) + b
+		# new
+		z = sparse_mult(W, x2) + b
 		# print(z)
 		a = sigma(z)
 		dz = a - y
-		dW = x*dz
+		
+		# old
+		# dW = x*dz
+
+		# new
+		sparse_dW_times_ALPHA = sparse_scalar_mult(x2, dz*ALPHA)
 		db = dz
 		# actual loss
 		J += -(y*math.log(a) + (1-y)*math.log(1 - a))
 		# update parameters
-		W = W - ALPHA*dW
+		# old
+		# W = W - ALPHA*dW
+		W = sparse_subtract(W, sparse_dW_times_ALPHA)
 		b = b - ALPHA*db
-	J = J/1000.0
+	J = J/100.0
 	print ("Epoch done, loss = " + str(J))
 
 
