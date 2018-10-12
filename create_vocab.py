@@ -11,6 +11,7 @@ stemmer = SnowballStemmer('english')
 DATA_FILE_NAME = "data/DBPedia.full.hdfs/full_train.txt"
 STOPWORDS_FILE_NAME = "stopwords.txt"
 VOCAB_FILE_NAME = "vocab.txt"
+CLASSES_FILE_NAME = "classes.txt"
 
 def remove_till_first_quote(text):
     regex = r"^(.*?)\""
@@ -54,9 +55,14 @@ f.close()
 dataFile = open(DATA_FILE_NAME, "r")
 
 allWords = set()
+allClasses = set()
 for line in dataFile.readlines():
     line = line.strip()
     splitLine = line.split('\t', 2)
+    classes = splitLine[0].split(',')
+    for docClass in classes:
+        docClass = docClass.strip()
+        allClasses.add(docClass)
     document = splitLine[1]
     document = denoise_text(document)
     words = document.split()
@@ -67,9 +73,17 @@ for line in dataFile.readlines():
         allWords.add(word)
 
 vocabFile = open(VOCAB_FILE_NAME, "w")
+classesFile = open(CLASSES_FILE_NAME, "w")
 allWordsList = list(allWords)
 allWordsList.sort()
+allClassesList = list(allClasses)
+allClassesList.sort()
 wordId = 0
 for word in allWordsList:
     vocabFile.write(word + '\t' + str(wordId) + '\n')
     wordId += 1
+
+classId = 0
+for docClass in allClassesList:
+    classesFile.write(docClass + '\t' + str(classId) + '\n')
+    classId += 1

@@ -13,7 +13,8 @@ stemmer = SnowballStemmer('english')
 DATA_FILE_NAME = "data/DBPedia.full.hdfs/full_train.txt"
 STOPWORDS_FILE_NAME = "stopwords.txt"
 VOCAB_FILE_NAME = "vocab.txt"
-DATA_VECTORS_FILE_NAME = "vectors_sparse.txt"
+CLASSES_FILE_NAME = "classes.txt"
+DATA_VECTORS_FILE_NAME = "data/vectors_sparse.txt"
 
 def remove_till_first_quote(text):
     regex = r"^(.*?)\""
@@ -54,7 +55,6 @@ for line in f.readlines():
 f.close()
 
 vocab = {}
-VOCAB_SIZE = 0
 f = open(VOCAB_FILE_NAME, "r")
 for line in f.readlines():
     line = line.strip()
@@ -62,10 +62,18 @@ for line in f.readlines():
     word = splitLine[0]
     wordId = int(splitLine[1])
     vocab[word] = wordId
-    VOCAB_SIZE += 1
 f.close()
 
-print (VOCAB_SIZE)
+classesList = {}
+f = open(CLASSES_FILE_NAME, "r")
+for line in f.readlines():
+    line = line.strip()
+    splitLine = line.split('\t', 2)
+    docClass = splitLine[0]
+    classId = int(splitLine[1])
+    classesList[docClass] = classId
+f.close()
+
 
 dataFile = open(DATA_FILE_NAME, "r")
 vectorsFile = open(DATA_VECTORS_FILE_NAME, "w")
@@ -73,6 +81,7 @@ vectorsFile = open(DATA_VECTORS_FILE_NAME, "w")
 for line in dataFile.readlines():
     line = line.strip()
     splitLine = line.split('\t', 2)
+    classes = splitLine[0].split(',')
     document = splitLine[1]
     document = denoise_text(document)
     words = document.split()
@@ -83,7 +92,6 @@ for line in dataFile.readlines():
             continue
         new_words.append(word)
 
-    # myVec = np.zeros((VOCAB_SIZE,), dtype=np.int)
     # create a sparse vector representation
     # key will be wordId of word
     # value will be its count in the document
@@ -95,7 +103,17 @@ for line in dataFile.readlines():
                 sparseVector[wordId] += 1
             else:
                 sparseVector[wordId] = 1
-    vectorsFile.write(json.dumps(sparseVector))
+    # need to get classes of each document
+    classesOfDoc = []
+    for docClass in classes:
+        docClass = docClass.strip()
+        if docClass in classesList:
+            classId = int(classesList[docClass])
+            classesOfDoc.append(classId)
+    toWrite = {}
+    toWrite['classes'] = classesOfDoc
+    toWrite['vector'] = sparseVector
+    vectorsFile.write(json.dumps(toWrite))
     vectorsFile.write('\n')
 
 
