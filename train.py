@@ -92,12 +92,8 @@ for epoch in range(0,5):
 		# update parameters
 		W = sparse_subtract(W, sparse_dW_times_ALPHA)
 		b = b - ALPHA*db
-	modW = np.dot(W,W)
 	J = J/10000.0
-	print ("Epoch done, loss = " + str(J))
-	print ("Mod square of W = " + str(modW))
-
-
+	print ("Epoch done, loss = " + str(J) + ", W square = " + str(np.dot(W,W)))
 
 print(len(data))
 file.close()
