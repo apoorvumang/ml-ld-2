@@ -71,42 +71,28 @@ for line in file.readlines():
 	line = json.loads(line)
 	data.append(line)
 	count = count + 1
-	if(count > 1000):
-		break
+	# if(count > 1000):
+	# 	break
 
 for epoch in range(0,5):
 	J = 0
-	for i in range(0,100):
+	for i in range(0,10000):
 		instance = data[i]
-		# old
-		x = unpack_vector(instance['vector'], VOCAB_SIZE)
-		# new
-		x2 = instance['vector']
+		x = instance['vector']
 		y = 0
 		if 3 in instance['classes']:
 			y = 1
-		# old
-		# z = np.dot(W,x) + b
-		# new
-		z = sparse_mult(W, x2) + b
-		# print(z)
+		z = sparse_mult(W, x) + b
 		a = sigma(z)
 		dz = a - y
-		
-		# old
-		# dW = x*dz
-
-		# new
-		sparse_dW_times_ALPHA = sparse_scalar_mult(x2, dz*ALPHA)
+		sparse_dW_times_ALPHA = sparse_scalar_mult(x, dz*ALPHA)
 		db = dz
 		# actual loss
 		J += -(y*math.log(a) + (1-y)*math.log(1 - a))
 		# update parameters
-		# old
-		# W = W - ALPHA*dW
 		W = sparse_subtract(W, sparse_dW_times_ALPHA)
 		b = b - ALPHA*db
-	J = J/100.0
+	J = J/10000.0
 	print ("Epoch done, loss = " + str(J))
 
 
