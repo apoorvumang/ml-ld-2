@@ -1,0 +1,6 @@
+Epochs done: 22
+ALPHA: 0.01
+LAMBDA: 1e-05
+Number of instances: 214997
+Loss: 0.00922712153405
+W squared: 703.092718997
