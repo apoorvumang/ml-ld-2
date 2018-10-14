@@ -12,6 +12,7 @@ VALID_DATA_VECTORS_FILE_NAME = "data/vectors_sparse_valid.txt"
 OUTPUT_W_FILE_NAME = "output_w.txt"
 OUTPUT_B_FILE_NAME = "output_b.txt"
 OUTPUT_PARAMS_FILE_NAME = "output_params.txt"
+OUTPUT_HISTORY_FILE_NAME = "output_history.txt"
 ALPHA = 0.001
 LAMBDA = 0.00
 
@@ -100,6 +101,7 @@ NUM_INSTANCE_TO_PROCESS_VALID = count
 file.close()
 
 
+output_history = []
 for epoch in range(0,100):
 	J = 0
 	for i in range(0,NUM_INSTANCE_TO_PROCESS):
@@ -147,6 +149,14 @@ for epoch in range(0,100):
 	J_VALID = J_VALID/NUM_INSTANCE_TO_PROCESS_VALID
 
 	print ("Epoch " + str(epoch) + ", loss = " + str(J) + ", validation loss: "+ str(J_VALID) + ", W square = " + str(np.dot(W,W)))
+	current_hist = {}
+	current_hist['epoch'] = epoch
+	current_hist['loss'] = J
+	current_hist['validation_loss'] = J_VALID
+	current_hist['w_square'] = str(np.dot(W,W))
+
+	output_history.append(current_hist)
+
 	f = open(OUTPUT_W_FILE_NAME, "w")
 	f.write(json.dumps(W.tolist()))
 	f.close()
@@ -162,6 +172,10 @@ for epoch in range(0,100):
 	f.write("Number of instances: " + str(NUM_INSTANCE_TO_PROCESS) + "\n")
 	f.write("Loss: " + str(J) + "\n")
 	f.write("W squared: " + str(np.dot(W,W)) + "\n")
+	f.close()
+
+	f = open(OUTPUT_HISTORY_FILE_NAME, "w")
+	f.write(json.dumps(output_history))
 	f.close()
 print(len(data))
 file.close()
