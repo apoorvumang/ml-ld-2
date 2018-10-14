@@ -32,12 +32,12 @@ plt.plot(x, y1)
 plt.plot(x, y2)
   
 # naming the x axis 
-plt.xlabel('x - axis') 
+plt.xlabel('Epochs') 
 # naming the y axis 
-plt.ylabel('y - axis') 
+plt.ylabel('Loss') 
   
 # giving a title to my graph 
-plt.title('My first graph!') 
+plt.title('Test and Validation loss over epochs') 
   
 # function to show the plot 
 plt.show() 
