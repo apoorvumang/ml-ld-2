@@ -1,0 +1,4 @@
+Epochs done: 20
+ALPHA: 0.005
+LAMBDA: 0.0
+Number of instances: 10500
