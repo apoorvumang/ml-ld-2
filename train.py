@@ -4,15 +4,23 @@ import sys
 import json
 import numpy as np
 import math
+import sys
+program_name = sys.argv[0]
+arguments = sys.argv[1:]
+
+class_number = 3
+if len(arguments) == 1:
+	class_number = int(arguments[0])
+
 
 VOCAB_FILE_NAME = "vocab.txt"
 CLASSES_FILE_NAME = "classes.txt"
 DATA_VECTORS_FILE_NAME = "data/vectors_sparse.txt"
 VALID_DATA_VECTORS_FILE_NAME = "data/vectors_sparse_valid.txt"
-OUTPUT_W_FILE_NAME = "output_w.txt"
-OUTPUT_B_FILE_NAME = "output_b.txt"
-OUTPUT_PARAMS_FILE_NAME = "output_params.txt"
-OUTPUT_HISTORY_FILE_NAME = "output_history.txt"
+OUTPUT_W_FILE_NAME = "output_multi/output_w"+str(class_number)+".txt"
+OUTPUT_B_FILE_NAME = "output_multi/output_b"+str(class_number)+".txt"
+OUTPUT_PARAMS_FILE_NAME = "output_multi/output_params"+str(class_number)+".txt"
+OUTPUT_HISTORY_FILE_NAME = "output_multi/output_history"+str(class_number)+".txt"
 ALPHA = 0.005
 LAMBDA = 0.00
 
@@ -100,9 +108,8 @@ for line in file.readlines():
 NUM_INSTANCE_TO_PROCESS_VALID = count
 file.close()
 
-
 output_history = []
-for epoch in range(0,100):
+for epoch in range(0,50):
 	J = 0
 	for i in range(0,NUM_INSTANCE_TO_PROCESS):
 		# huge and problematic instance
@@ -111,7 +118,7 @@ for epoch in range(0,100):
 		instance = data[i]
 		x = instance['vector']
 		y = 0
-		if 3 in instance['classes']:
+		if class_number in instance['classes']:
 			y = 1
 		z = sparse_mult(W, x) + b
 
@@ -141,14 +148,14 @@ for epoch in range(0,100):
 		instance = valid_data[i]
 		x = instance['vector']
 		y = 0
-		if 3 in instance['classes']:
+		if class_number in instance['classes']:
 			y = 1
 		z = sparse_mult(W, x) + b
 		a = sigma(z)
 		J_VALID += -(y*math.log(a) + (1-y)*math.log(1 - a)) + LAMBDA*np.dot(W,W)
 	J_VALID = J_VALID/NUM_INSTANCE_TO_PROCESS_VALID
 
-	print ("Epoch " + str(epoch) + ", loss = " + str(J) + ", validation loss: "+ str(J_VALID) + ", W square = " + str(np.dot(W,W)))
+	print ("Class "+ str(class_number) + " Epoch " + str(epoch) + ", loss = " + str(J) + ", validation loss: "+ str(J_VALID) + ", W square = " + str(np.dot(W,W)))
 	current_hist = {}
 	current_hist['epoch'] = epoch
 	current_hist['loss'] = J

@@ -4,6 +4,9 @@ import sys
 import json
 import numpy as np
 import math
+import sys
+program_name = sys.argv[0]
+arguments = sys.argv[1:]
 
 VOCAB_FILE_NAME = "vocab.txt"
 CLASSES_FILE_NAME = "classes.txt"
@@ -137,13 +140,13 @@ for epoch in range(0,20):
 			sparse_dW_times_ALPHA = sparse_scalar_mult(x, dz*ALPHA)
 			db = dz
 			# actual loss
-			curr_J += -(y*math.log(a) + (1-y)*math.log(1 - a)) + LAMBDA*np.dot(curr_W,curr_W)
+			J[j] += -(y*math.log(a) + (1-y)*math.log(1 - a)) + LAMBDA*np.dot(curr_W,curr_W)
 			# update parameters
 			# need to add 2*LAMBDA*wi to each wi for l2 regularization?
-			curr_W = sparse_subtract(curr_W, sparse_dW_times_ALPHA)
+			W[j] = sparse_subtract(curr_W, sparse_dW_times_ALPHA)
 			# W = (1.0 - LAMBDA)*W 
 			# W = np.multiply(W, 1.0 - LAMBDA)
-			curr_b = curr_b - ALPHA*db
+			b[j] = curr_b - ALPHA*db
 	J = [k / NUM_INSTANCE_TO_PROCESS for k in J]
 	# now calculate validation loss
 	# iterate over all validation instances, calculate loss only
