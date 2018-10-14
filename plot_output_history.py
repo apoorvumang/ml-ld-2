@@ -26,10 +26,6 @@ for entry in data:
 	x.append(entry['epoch'])
 	y1.append(entry['loss'])
 	y2.append(entry['validation_loss'])
-# x axis values 
-# x = [1,2,3] 
-# # corresponding y axis values 
-# y = [2,4,1] 
   
 # plotting the points  
 plt.plot(x, y1) 
