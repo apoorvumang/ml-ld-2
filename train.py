@@ -13,7 +13,7 @@ OUTPUT_W_FILE_NAME = "output_w.txt"
 OUTPUT_B_FILE_NAME = "output_b.txt"
 OUTPUT_PARAMS_FILE_NAME = "output_params.txt"
 OUTPUT_HISTORY_FILE_NAME = "output_history.txt"
-ALPHA = 0.001
+ALPHA = 0.005
 LAMBDA = 0.00
 
 
@@ -130,7 +130,7 @@ for epoch in range(0,100):
 		# need to add 2*LAMBDA*wi to each wi for l2 regularization?
 		W = sparse_subtract(W, sparse_dW_times_ALPHA)
 		# W = (1.0 - LAMBDA)*W 
-		W = np.multiply(W, 1.0 - LAMBDA)
+		# W = np.multiply(W, 1.0 - LAMBDA)
 		b = b - ALPHA*db
 	J = J/NUM_INSTANCE_TO_PROCESS
 

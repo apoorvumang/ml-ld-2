@@ -7,8 +7,7 @@ import math
 
 VOCAB_FILE_NAME = "vocab.txt"
 CLASSES_FILE_NAME = "classes.txt"
-DATA_VECTORS_FILE_NAME = "data/vectors_sparse.txt"
-VALID_DATA_VECTORS_FILE_NAME = "data/vectors_sparse_valid.txt"
+DATA_VECTORS_FILE_NAME = "data/vectors_sparse_test_full.txt"
 # OUTPUT_W_FILE_NAME = "output_w.txt"
 # OUTPUT_B_FILE_NAME = "output_b.txt"
 # OUTPUT_PARAMS_FILE_NAME = "output_params.txt"
