@@ -4,16 +4,40 @@ import sys
 import json
 import numpy as np
 import math
+import sys
+program_name = sys.argv[0]
+arguments = sys.argv[1:]
+
+class_number = 3
+if len(arguments) == 1:
+	class_number = int(arguments[0])
 
 VOCAB_FILE_NAME = "vocab.txt"
 CLASSES_FILE_NAME = "classes.txt"
 DATA_VECTORS_FILE_NAME = "data/vectors_sparse_test_full.txt"
+OUTPUT_W_FILE_NAME = "output_multi/output_w"+str(class_number)+".txt"
+OUTPUT_B_FILE_NAME = "output_multi/output_b"+str(class_number)+".txt"
+OUTPUT_PARAMS_FILE_NAME = "output_multi/output_params"+str(class_number)+".txt"
+OUTPUT_HISTORY_FILE_NAME = "output_multi/output_history"+str(class_number)+".txt"
+
 # OUTPUT_W_FILE_NAME = "output_w.txt"
 # OUTPUT_B_FILE_NAME = "output_b.txt"
 # OUTPUT_PARAMS_FILE_NAME = "output_params.txt"
 # OUTPUT_HISTORY_FILE_NAME = "output_history.txt"
-ALPHA = 0.001
-LAMBDA = 0.00
+
+params = {}
+paramsFile = open(OUTPUT_PARAMS_FILE_NAME, "r")
+for line in paramsFile.readlines():
+	if line.strip():
+		splitLine = line.strip().split(':')
+		key = splitLine[0].strip()
+		value = float(splitLine[1].strip())
+		params[key] = value
+
+ALPHA = params["ALPHA"]
+LAMBDA = params["LAMBDA"]
+
+paramsFile.close()
 
 
 vocab = {}
@@ -88,11 +112,11 @@ file.close()
 
 # read b and w
 
-f = open("output_w.txt", "r")
+f = open(OUTPUT_W_FILE_NAME, "r")
 W = json.loads(f.readline().strip())
 f.close()
 
-f = open("output_b.txt", "r")
+f = open(OUTPUT_B_FILE_NAME, "r")
 b = float(f.readline().strip())
 f.close()
 
@@ -105,20 +129,17 @@ for i in range(0,NUM_INSTANCE_TO_PROCESS):
 	instance = data[i]
 	x = instance['vector']
 	y = 0
-	if 3 in instance['classes']:
+	if class_number in instance['classes']:
 		y = 1
 	z = sparse_mult(W, x) + b
-
 	a = sigma(z)
-
 	predicted_label = 0
 	if (a>= 0.5):
 		predicted_label = 1
-
 	if predicted_label == y:
 		numCorrect += 1
 	else:
 		numWrong += 1
 
-print ("Correct: " + str(numCorrect) + " Wrong: " + str(numWrong) + " Accuracy: " + str(numCorrect/(numCorrect+numWrong)))
+print ("Class: "+str(class_number)+" Correct: " + str(numCorrect) + " Wrong: " + str(numWrong) + " Accuracy: " + str(numCorrect/(numCorrect+numWrong)))
 print(len(data))

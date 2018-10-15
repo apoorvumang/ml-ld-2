@@ -1,2 +1,2 @@
 for i in range(50):
-	print ("./train.py " + str(i) + " & ")
+	print ("./test.py " + str(i) + " & ")
