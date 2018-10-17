@@ -7,10 +7,11 @@ importer = zipimport.zipimporter('nltk.zip')
 nltk = importer.load_module('nltk')
 from nltk.stem.snowball import SnowballStemmer
 stemmer = SnowballStemmer('english')
-DATA_FILE_NAME = "data/DBPedia.verysmall.hdfs/verysmall_train.txt"
-# DATA_FILE_NAME = "data/DBPedia.full.hdfs/full_train.txt"
+# DATA_FILE_NAME = "data/DBPedia.verysmall.hdfs/verysmall_train.txt"
+DATA_FILE_NAME = "data/DBPedia.full.hdfs/full_train.txt"
 STOPWORDS_FILE_NAME = "stopwords.txt"
-VOCAB_FILE_NAME = "vocab.txt"
+# VOCAB_FILE_NAME = "vocab_verysmall.txt"
+VOCAB_FILE_NAME = "vocab_full.txt"
 CLASSES_FILE_NAME = "classes.txt"
 
 def remove_till_first_quote(text):
@@ -70,7 +71,7 @@ for line in dataFile.readlines():
     for word in words:
         if word in stopwords:
             continue
-        allWords.add(word)
+        allWords.add(stemmer.stem(word))
 
 vocabFile = open(VOCAB_FILE_NAME, "w")
 classesFile = open(CLASSES_FILE_NAME, "w")

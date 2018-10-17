@@ -13,10 +13,10 @@ if len(arguments) == 1:
 	class_number = int(arguments[0])
 
 
-VOCAB_FILE_NAME = "vocab.txt"
+VOCAB_FILE_NAME = "vocab_full.txt"
 CLASSES_FILE_NAME = "classes.txt"
-DATA_VECTORS_FILE_NAME = "data/vectors_sparse.txt"
-VALID_DATA_VECTORS_FILE_NAME = "data/vectors_sparse_valid.txt"
+DATA_VECTORS_FILE_NAME = "data/vectors_sparse_train_full.txt"
+VALID_DATA_VECTORS_FILE_NAME = "data/vectors_sparse_valid_full.txt"
 OUTPUT_W_FILE_NAME = "output_multi/output_w"+str(class_number)+".txt"
 OUTPUT_B_FILE_NAME = "output_multi/output_b"+str(class_number)+".txt"
 OUTPUT_PARAMS_FILE_NAME = "output_multi/output_params"+str(class_number)+".txt"
@@ -108,7 +108,10 @@ for line in file.readlines():
 NUM_INSTANCE_TO_PROCESS_VALID = count
 file.close()
 
+print("Data read. Training starting...")
+
 output_history = []
+J_VALID_PREVIOUS = 999999
 for epoch in range(0,50):
 	J = 0
 	for i in range(0,NUM_INSTANCE_TO_PROCESS):
@@ -184,5 +187,8 @@ for epoch in range(0,50):
 	f = open(OUTPUT_HISTORY_FILE_NAME, "w")
 	f.write(json.dumps(output_history))
 	f.close()
+	if J_VALID > J_VALID_PREVIOUS:
+		print("Validation loss increased. Exiting...")
+		break
 print(len(data))
 file.close()

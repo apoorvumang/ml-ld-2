@@ -12,7 +12,7 @@ class_number = 3
 if len(arguments) == 1:
 	class_number = int(arguments[0])
 
-VOCAB_FILE_NAME = "vocab.txt"
+VOCAB_FILE_NAME = "vocab_full.txt"
 CLASSES_FILE_NAME = "classes.txt"
 DATA_VECTORS_FILE_NAME = "data/vectors_sparse_test_full.txt"
 OUTPUT_W_FILE_NAME = "output_multi/output_w"+str(class_number)+".txt"

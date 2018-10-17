@@ -9,13 +9,15 @@ importer = zipimport.zipimporter('nltk.zip')
 nltk = importer.load_module('nltk')
 from nltk.stem.snowball import SnowballStemmer
 stemmer = SnowballStemmer('english')
-# DATA_FILE_NAME = "data/DBPedia.verysmall.hdfs/verysmall_train.txt"
+
 # DATA_FILE_NAME = "data/DBPedia.verysmall.hdfs/verysmall_test.txt"
-DATA_FILE_NAME = "data/DBPedia.full.hdfs/full_train.txt"
+# DATA_FILE_NAME = "data/DBPedia.verysmall.hdfs/verysmall_train.txt"
+DATA_FILE_NAME = "data/DBPedia.full.hdfs/full_devel.txt"
 STOPWORDS_FILE_NAME = "stopwords.txt"
-VOCAB_FILE_NAME = "vocab.txt"
+# VOCAB_FILE_NAME = "vocab_verysmall.txt"
+VOCAB_FILE_NAME = "vocab_full.txt"
 CLASSES_FILE_NAME = "classes.txt"
-DATA_VECTORS_FILE_NAME = "data/vectors_sparse_train_full.txt"
+DATA_VECTORS_FILE_NAME = "data/vectors_sparse_valid_full.txt"
 
 def remove_till_first_quote(text):
     regex = r"^(.*?)\""
@@ -91,7 +93,7 @@ for line in dataFile.readlines():
     for word in words:
         if word in stopwords:
             continue
-        new_words.append(word)
+        new_words.append(stemmer.stem(word))
 
     # create a sparse vector representation
     # key will be wordId of word
