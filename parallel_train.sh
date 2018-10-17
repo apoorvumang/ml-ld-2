@@ -1,51 +1,51 @@
 #!/bin/bash
-./train.py 0 & 
-./train.py 1 & 
-./train.py 2 & 
-./train.py 3 & 
-./train.py 4 & 
-./train.py 5 & 
-./train.py 6 & 
-./train.py 7 & 
-./train.py 8 & 
-./train.py 9 & 
-./train.py 10 & 
-./train.py 11 & 
-./train.py 12 & 
-./train.py 13 & 
-./train.py 14 & 
-./train.py 15 & 
-./train.py 16 & 
-./train.py 17 & 
-./train.py 18 & 
-./train.py 19 & 
-./train.py 20 & 
-./train.py 21 & 
-./train.py 22 & 
-./train.py 23 & 
-./train.py 24 & 
-./train.py 25 & 
-./train.py 26 & 
-./train.py 27 & 
-./train.py 28 & 
-./train.py 29 & 
-./train.py 30 & 
-./train.py 31 & 
-./train.py 32 & 
-./train.py 33 & 
-./train.py 34 & 
-./train.py 35 & 
-./train.py 36 & 
-./train.py 37 & 
-./train.py 38 & 
-./train.py 39 & 
-./train.py 40 & 
-./train.py 41 & 
-./train.py 42 & 
-./train.py 43 & 
-./train.py 44 & 
-./train.py 45 & 
-./train.py 46 & 
-./train.py 47 & 
-./train.py 48 & 
-./train.py 49 && fg
+./train.py 0 $1 & 
+./train.py 1 $1 & 
+./train.py 2 $1 & 
+./train.py 3 $1 & 
+./train.py 4 $1 & 
+./train.py 5 $1 & 
+./train.py 6 $1 & 
+./train.py 7 $1 & 
+./train.py 8 $1 & 
+./train.py 9 $1 & 
+./train.py 10 $1 & 
+./train.py 11 $1 & 
+./train.py 12 $1 & 
+./train.py 13 $1 & 
+./train.py 14 $1 & 
+./train.py 15 $1 & 
+./train.py 16 $1 & 
+./train.py 17 $1 & 
+./train.py 18 $1 & 
+./train.py 19 $1 & 
+./train.py 20 $1 & 
+./train.py 21 $1 & 
+./train.py 22 $1 & 
+./train.py 23 $1 & 
+./train.py 24 $1 & 
+./train.py 25 $1 & 
+./train.py 26 $1 & 
+./train.py 27 $1 & 
+./train.py 28 $1 & 
+./train.py 29 $1 & 
+./train.py 30 $1 & 
+./train.py 31 $1 & 
+./train.py 32 $1 & 
+./train.py 33 $1 & 
+./train.py 34 $1 & 
+./train.py 35 $1 & 
+./train.py 36 $1 & 
+./train.py 37 $1 & 
+./train.py 38 $1 & 
+./train.py 39 $1 & 
+./train.py 40 $1 & 
+./train.py 41 $1 & 
+./train.py 42 $1 & 
+./train.py 43 $1 & 
+./train.py 44 $1 & 
+./train.py 45 $1 & 
+./train.py 46 $1 & 
+./train.py 47 $1 & 
+./train.py 48 $1 & 
+./train.py 49 $1 && fg

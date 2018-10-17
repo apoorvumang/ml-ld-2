@@ -1,51 +1,51 @@
 #!/bin/bash
-./test.py 0 & 
-./test.py 1 & 
-./test.py 2 & 
-./test.py 3 & 
-./test.py 4 & 
-./test.py 5 & 
-./test.py 6 & 
-./test.py 7 & 
-./test.py 8 & 
-./test.py 9 & 
-./test.py 10 & 
-./test.py 11 & 
-./test.py 12 & 
-./test.py 13 & 
-./test.py 14 & 
-./test.py 15 & 
-./test.py 16 & 
-./test.py 17 & 
-./test.py 18 & 
-./test.py 19 & 
-./test.py 20 & 
-./test.py 21 & 
-./test.py 22 & 
-./test.py 23 & 
-./test.py 24 & 
-./test.py 25 & 
-./test.py 26 & 
-./test.py 27 & 
-./test.py 28 & 
-./test.py 29 & 
-./test.py 30 & 
-./test.py 31 & 
-./test.py 32 & 
-./test.py 33 & 
-./test.py 34 & 
-./test.py 35 & 
-./test.py 36 & 
-./test.py 37 & 
-./test.py 38 & 
-./test.py 39 & 
-./test.py 40 & 
-./test.py 41 & 
-./test.py 42 & 
-./test.py 43 & 
-./test.py 44 & 
-./test.py 45 & 
-./test.py 46 & 
-./test.py 47 & 
-./test.py 48 & 
-./test.py 49 && fg
+./test.py 0 $1 & 
+./test.py 1 $1 & 
+./test.py 2 $1 & 
+./test.py 3 $1 & 
+./test.py 4 $1 & 
+./test.py 5 $1 & 
+./test.py 6 $1 & 
+./test.py 7 $1 & 
+./test.py 8 $1 & 
+./test.py 9 $1 & 
+./test.py 10 $1 & 
+./test.py 11 $1 & 
+./test.py 12 $1 & 
+./test.py 13 $1 & 
+./test.py 14 $1 & 
+./test.py 15 $1 & 
+./test.py 16 $1 & 
+./test.py 17 $1 & 
+./test.py 18 $1 & 
+./test.py 19 $1 & 
+./test.py 20 $1 & 
+./test.py 21 $1 & 
+./test.py 22 $1 & 
+./test.py 23 $1 & 
+./test.py 24 $1 & 
+./test.py 25 $1 & 
+./test.py 26 $1 & 
+./test.py 27 $1 & 
+./test.py 28 $1 & 
+./test.py 29 $1 & 
+./test.py 30 $1 & 
+./test.py 31 $1 & 
+./test.py 32 $1 & 
+./test.py 33 $1 & 
+./test.py 34 $1 & 
+./test.py 35 $1 & 
+./test.py 36 $1 & 
+./test.py 37 $1 & 
+./test.py 38 $1 & 
+./test.py 39 $1 & 
+./test.py 40 $1 & 
+./test.py 41 $1 & 
+./test.py 42 $1 & 
+./test.py 43 $1 & 
+./test.py 44 $1 & 
+./test.py 45 $1 & 
+./test.py 46 $1 & 
+./test.py 47 $1 & 
+./test.py 48 $1 & 
+./test.py 49 $1 && fg

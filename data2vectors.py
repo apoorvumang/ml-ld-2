@@ -11,13 +11,13 @@ from nltk.stem.snowball import SnowballStemmer
 stemmer = SnowballStemmer('english')
 
 # DATA_FILE_NAME = "data/DBPedia.verysmall.hdfs/verysmall_test.txt"
-# DATA_FILE_NAME = "data/DBPedia.verysmall.hdfs/verysmall_train.txt"
-DATA_FILE_NAME = "data/DBPedia.full.hdfs/full_devel.txt"
+DATA_FILE_NAME = "data/DBPedia.verysmall.hdfs/verysmall_devel.txt"
+# DATA_FILE_NAME = "data/DBPedia.full.hdfs/full_devel.txt"
 STOPWORDS_FILE_NAME = "stopwords.txt"
 # VOCAB_FILE_NAME = "vocab_verysmall.txt"
-VOCAB_FILE_NAME = "vocab_full.txt"
+VOCAB_FILE_NAME = "vocab_verysmall.txt"
 CLASSES_FILE_NAME = "classes.txt"
-DATA_VECTORS_FILE_NAME = "data/vectors_sparse_valid_full.txt"
+DATA_VECTORS_FILE_NAME = "data/vectors_sparse_valid_verysmall.txt"
 
 def remove_till_first_quote(text):
     regex = r"^(.*?)\""

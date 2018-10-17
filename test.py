@@ -9,21 +9,27 @@ program_name = sys.argv[0]
 arguments = sys.argv[1:]
 
 class_number = 3
-if len(arguments) == 1:
+FULL = False
+if len(arguments) == 2:
 	class_number = int(arguments[0])
+	if(arguments[1]=="full"):
+		FULL = True
+else:
+	print "Need 2 arguments: 1st argument is class number (0-49) and 2nd is full/verysmall"
+	exit()
 
-VOCAB_FILE_NAME = "vocab_full.txt"
 CLASSES_FILE_NAME = "classes.txt"
-DATA_VECTORS_FILE_NAME = "data/vectors_sparse_test_full.txt"
+
+VOCAB_FILE_NAME = "vocab_verysmall.txt"
+DATA_VECTORS_FILE_NAME = "data/vectors_sparse_test_verysmall.txt"
+if FULL:
+	VOCAB_FILE_NAME = "vocab_full.txt"
+	DATA_VECTORS_FILE_NAME = "data/vectors_sparse_test_full.txt"
+
 OUTPUT_W_FILE_NAME = "output_multi/output_w"+str(class_number)+".txt"
 OUTPUT_B_FILE_NAME = "output_multi/output_b"+str(class_number)+".txt"
 OUTPUT_PARAMS_FILE_NAME = "output_multi/output_params"+str(class_number)+".txt"
 OUTPUT_HISTORY_FILE_NAME = "output_multi/output_history"+str(class_number)+".txt"
-
-# OUTPUT_W_FILE_NAME = "output_w.txt"
-# OUTPUT_B_FILE_NAME = "output_b.txt"
-# OUTPUT_PARAMS_FILE_NAME = "output_params.txt"
-# OUTPUT_HISTORY_FILE_NAME = "output_history.txt"
 
 params = {}
 paramsFile = open(OUTPUT_PARAMS_FILE_NAME, "r")
@@ -90,6 +96,7 @@ def sparse_subtract(normal, sparse):
 		normal[key] -= value
 	return normal
 
+
 # parameters
 W = np.zeros((VOCAB_SIZE,), dtype=np.float)
 b = 0
@@ -142,4 +149,4 @@ for i in range(0,NUM_INSTANCE_TO_PROCESS):
 		numWrong += 1
 
 print ("Class: "+str(class_number)+" Correct: " + str(numCorrect) + " Wrong: " + str(numWrong) + " Accuracy: " + str(numCorrect/(numCorrect+numWrong)))
-print(len(data))
+
