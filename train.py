@@ -56,13 +56,10 @@ def unpack_vector(sparse_vector, length):
 	return v
 
 def sigma(z):
-	if(z < -1000):
-		print(z)
-		return 0
-	if(z > 1000):
-		print(z)
-		return 1
-	return 1.0/(1.0 + math.exp(-z))
+	value = 1.0/(1.0 + math.exp(-z))
+	if (value == 1.0 or value == 0.0):
+		# print z
+	return value
 
 def sparse_mult(normal, sparse):
 	ans = 0.0
@@ -123,7 +120,10 @@ print("Data read, %d instances, W length %d. ALPHA = %f LAMBDA = %f" %(NUM_INSTA
 
 output_history = []
 J_VALID_PREVIOUS = 999999
-for epoch in range(0,50):
+MAX_EPOCHS = 50
+if FULL:
+	MAX_EPOCHS = 10
+for epoch in range(0,MAX_EPOCHS):
 	J = 0
 	for i in range(0,NUM_INSTANCE_TO_PROCESS):
 		# huge and problematic instance
@@ -151,7 +151,7 @@ for epoch in range(0,50):
 		# need to add 2*LAMBDA*wi to each wi for l2 regularization?
 		W = sparse_subtract(W, sparse_dW_times_ALPHA)
 		# W = (1.0 - LAMBDA)*W 
-		# W = np.multiply(W, 1.0 - LAMBDA)
+		W = np.multiply(W, 1.0 - LAMBDA)
 		b = b - ALPHA*db
 	J = J/NUM_INSTANCE_TO_PROCESS
 
@@ -166,6 +166,8 @@ for epoch in range(0,50):
 			y = 1
 		z = sparse_mult(W, x) + b
 		a = sigma(z)
+		if ((a<=0) or (a >= 1)):
+			continue
 		J_VALID += -(y*math.log(a) + (1-y)*math.log(1 - a)) + LAMBDA*np.dot(W,W)
 	J_VALID = J_VALID/NUM_INSTANCE_TO_PROCESS_VALID
 
