@@ -10,12 +10,14 @@ arguments = sys.argv[1:]
 
 class_number = 3
 FULL = False
-if len(arguments) == 2:
+MAX_EPOCHS = 50
+if len(arguments) == 3:
 	class_number = int(arguments[0])
 	if(arguments[1]=="full"):
 		FULL = True
+	MAX_EPOCHS = int(arguments[2])
 else:
-	print "Need 2 arguments: 1st argument is class number (0-49) and 2nd is full/verysmall"
+	print "Need 3 arguments: 1st argument is class number (0-49), 2nd is full/verysmall, 3rd is max number of epochs"
 	exit()
 
 CLASSES_FILE_NAME = "classes.txt"
@@ -56,9 +58,14 @@ def unpack_vector(sparse_vector, length):
 	return v
 
 def sigma(z):
-	value = 1.0/(1.0 + math.exp(-z))
+	value = 0.0
+	try:
+		value = 1.0/(1.0 + math.exp(-z))
+	except OverflowError:
+		print("Z value on overflow error was " + str(z))
+		value = 0.0
 	if (value == 1.0 or value == 0.0):
-		# print z
+		print(str(class_number) + " " + str(z))
 	return value
 
 def sparse_mult(normal, sparse):
@@ -116,13 +123,13 @@ for line in file.readlines():
 NUM_INSTANCE_TO_PROCESS_VALID = count
 file.close()
 
-print("Data read, %d instances, W length %d. ALPHA = %f LAMBDA = %f" %(NUM_INSTANCE_TO_PROCESS, VOCAB_SIZE, ALPHA, LAMBDA))
+print("Data read, %d instances, W length %d. ALPHA = %f LAMBDA = %f MAX_EPOCHS = %d" %(NUM_INSTANCE_TO_PROCESS, VOCAB_SIZE, ALPHA, LAMBDA, MAX_EPOCHS))
 
 output_history = []
 J_VALID_PREVIOUS = 999999
-MAX_EPOCHS = 50
-if FULL:
-	MAX_EPOCHS = 10
+# MAX_EPOCHS = 50
+# if FULL:
+# 	MAX_EPOCHS = 10
 for epoch in range(0,MAX_EPOCHS):
 	J = 0
 	for i in range(0,NUM_INSTANCE_TO_PROCESS):
@@ -151,7 +158,7 @@ for epoch in range(0,MAX_EPOCHS):
 		# need to add 2*LAMBDA*wi to each wi for l2 regularization?
 		W = sparse_subtract(W, sparse_dW_times_ALPHA)
 		# W = (1.0 - LAMBDA)*W 
-		W = np.multiply(W, 1.0 - LAMBDA)
+		# W = np.multiply(W, 1.0 - LAMBDA)
 		b = b - ALPHA*db
 	J = J/NUM_INSTANCE_TO_PROCESS
 

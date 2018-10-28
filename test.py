@@ -148,5 +148,6 @@ for i in range(0,NUM_INSTANCE_TO_PROCESS):
 	else:
 		numWrong += 1
 
-print ("Class: "+str(class_number)+" Correct: " + str(numCorrect) + " Wrong: " + str(numWrong) + " Accuracy: " + str(numCorrect/(numCorrect+numWrong)))
+accuracy_percentage = 100.0*numCorrect/(numCorrect+numWrong)
+print ("Class:\t"+str(class_number)+"\tAccuracy: " + "{0:.2f}".format(accuracy_percentage))
 

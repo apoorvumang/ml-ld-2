@@ -1,51 +1,51 @@
 #!/bin/bash
-./train.py 0 $1 & 
-./train.py 1 $1 & 
-./train.py 2 $1 & 
-./train.py 3 $1 & 
-./train.py 4 $1 & 
-./train.py 5 $1 & 
-./train.py 6 $1 & 
-./train.py 7 $1 & 
-./train.py 8 $1 & 
-./train.py 9 $1 & 
-./train.py 10 $1 & 
-./train.py 11 $1 & 
-./train.py 12 $1 & 
-./train.py 13 $1 & 
-./train.py 14 $1 & 
-./train.py 15 $1 & 
-./train.py 16 $1 & 
-./train.py 17 $1 & 
-./train.py 18 $1 & 
-./train.py 19 $1 & 
-./train.py 20 $1 & 
-./train.py 21 $1 & 
-./train.py 22 $1 & 
-./train.py 23 $1 & 
-./train.py 24 $1 & 
-./train.py 25 $1 & 
-./train.py 26 $1 & 
-./train.py 27 $1 & 
-./train.py 28 $1 & 
-./train.py 29 $1 & 
-./train.py 30 $1 & 
-./train.py 31 $1 & 
-./train.py 32 $1 & 
-./train.py 33 $1 & 
-./train.py 34 $1 & 
-./train.py 35 $1 & 
-./train.py 36 $1 & 
-./train.py 37 $1 & 
-./train.py 38 $1 & 
-./train.py 39 $1 & 
-./train.py 40 $1 & 
-./train.py 41 $1 & 
-./train.py 42 $1 & 
-./train.py 43 $1 & 
-./train.py 44 $1 & 
-./train.py 45 $1 & 
-./train.py 46 $1 & 
-./train.py 47 $1 & 
-./train.py 48 $1 & 
-./train.py 49 $1 && fg
+./train.py 0 $1 $2 & 
+./train.py 1 $1 $2 & 
+./train.py 2 $1 $2 & 
+./train.py 3 $1 $2 & 
+./train.py 4 $1 $2 & 
+./train.py 5 $1 $2 & 
+./train.py 6 $1 $2 & 
+./train.py 7 $1 $2 & 
+./train.py 8 $1 $2 & 
+./train.py 9 $1 $2 & 
+./train.py 10 $1 $2 & 
+./train.py 11 $1 $2 & 
+./train.py 12 $1 $2 & 
+./train.py 13 $1 $2 & 
+./train.py 14 $1 $2 & 
+./train.py 15 $1 $2 & 
+./train.py 16 $1 $2 & 
+./train.py 17 $1 $2 & 
+./train.py 18 $1 $2 & 
+./train.py 19 $1 $2 & 
+./train.py 20 $1 $2 & 
+./train.py 21 $1 $2 & 
+./train.py 22 $1 $2 & 
+./train.py 23 $1 $2 & 
+./train.py 24 $1 $2 & 
+./train.py 25 $1 $2 & 
+./train.py 26 $1 $2 & 
+./train.py 27 $1 $2 & 
+./train.py 28 $1 $2 & 
+./train.py 29 $1 $2 & 
+./train.py 30 $1 $2 & 
+./train.py 31 $1 $2 & 
+./train.py 32 $1 $2 & 
+./train.py 33 $1 $2 & 
+./train.py 34 $1 $2 & 
+./train.py 35 $1 $2 & 
+./train.py 36 $1 $2 & 
+./train.py 37 $1 $2 & 
+./train.py 38 $1 $2 & 
+./train.py 39 $1 $2 & 
+./train.py 40 $1 $2 & 
+./train.py 41 $1 $2 & 
+./train.py 42 $1 $2 & 
+./train.py 43 $1 $2 & 
+./train.py 44 $1 $2 & 
+./train.py 45 $1 $2 & 
+./train.py 46 $1 $2 & 
+./train.py 47 $1 $2 & 
+./train.py 48 $1 $2 & 
+./train.py 49 $1 $2 && fg
