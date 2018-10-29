@@ -1,0 +1,23 @@
+Time taken:
+Training:
+Full dataset on local (puri): 35 minutes for 20 epochs, for each class, without regularization.
+Regularization requires dense multiplication, not feasible on local.
+Run in parallel on puri server (on 50 cores) so that it finishes in time.
+Testing:
+Full test dataset on local (puri): about 20 seconds
+Full train dataset on local (puri): 4 minutes
+
+2 types of testing: exact class set match or at least 1 correct class guessed:
+
+Accuracy on test data:
+Exact Correct: 21660.0 Wrong: 8337.0 Accuracy: 72.21
+Not found: 2878
+Doing simple prediction...
+Simple Correct (At least 1 predicted is in true set): 26641.0 Wrong: 3356.0 Accuracy: 88.81
+
+
+Accuracy on train data:
+Exact Correct: 153631.0 Wrong: 61366.0 Accuracy: 71.46
+Not found: 21311
+Doing simple prediction...
+Simple Correct (At least 1 predicted is in true set): 199853.0 Wrong: 15144.0 Accuracy: 92.96

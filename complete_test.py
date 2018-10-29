@@ -17,20 +17,23 @@ program_name = sys.argv[0]
 arguments = sys.argv[1:]
 
 FULL = False
-if len(arguments) == 1:
+DATA_TYPE = "test"
+if len(arguments) == 2:
 	if(arguments[0]=="full"):
 		FULL = True
+	if(arguments[1]=="train"):
+		DATA_TYPE = "train"
 else:
-	print "Need 1 argument: full/verysmall"
+	print "Need 2 arguments: full/verysmall, test/train"
 	exit()
 
 CLASSES_FILE_NAME = "classes.txt"
 
 VOCAB_FILE_NAME = "vocab_verysmall.txt"
-DATA_VECTORS_FILE_NAME = "data/vectors_sparse_test_verysmall.txt"
+DATA_VECTORS_FILE_NAME = "data/vectors_sparse_"+DATA_TYPE+"_verysmall.txt"
 if FULL:
 	VOCAB_FILE_NAME = "vocab_full.txt"
-	DATA_VECTORS_FILE_NAME = "data/vectors_sparse_test_full.txt"
+	DATA_VECTORS_FILE_NAME = "data/vectors_sparse_"+DATA_TYPE+"_full.txt"
 
 
 
@@ -57,13 +60,12 @@ def unpack_vector(sparse_vector, length):
 	return v
 
 def sigma(z):
-	if(z < -1000):
-		print(z)
-		return 0
-	if(z > 1000):
-		print(z)
-		return 1
-	return 1.0/(1.0 + math.exp(-z))
+	value = 0.0
+	try:
+		value = 1.0/(1.0 + math.exp(-z))
+	except OverflowError:
+		value = 0.0
+	return value
 
 def sparse_mult(normal, sparse):
 	ans = 0.0

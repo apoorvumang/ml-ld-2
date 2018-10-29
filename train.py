@@ -207,7 +207,7 @@ for epoch in range(0,MAX_EPOCHS):
 	f = open(OUTPUT_HISTORY_FILE_NAME, "w")
 	f.write(json.dumps(output_history))
 	f.close()
-	if J_VALID > J_VALID_PREVIOUS:
-		print("Validation loss increased. Exiting...")
-		break
+	# if J_VALID > J_VALID_PREVIOUS:
+	# 	print("Validation loss increased. Exiting...")
+	# 	break
 	J_VALID_PREVIOUS = J_VALID
