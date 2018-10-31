@@ -33,9 +33,9 @@ OUTPUT_W_FILE_NAME = "output_multi/output_w"+str(class_number)+".txt"
 OUTPUT_B_FILE_NAME = "output_multi/output_b"+str(class_number)+".txt"
 OUTPUT_PARAMS_FILE_NAME = "output_multi/output_params"+str(class_number)+".txt"
 OUTPUT_HISTORY_FILE_NAME = "output_multi/output_history"+str(class_number)+".txt"
-ALPHA = 0.005
+ALPHA = 0.1
 LAMBDA = 0.00
-ALPHA_CHANGE = 0.002
+ALPHA_CHANGE = 0.01
 
 
 vocab = {}
@@ -131,10 +131,10 @@ J_VALID_PREVIOUS = 999999
 # MAX_EPOCHS = 50
 # if FULL:
 # 	MAX_EPOCHS = 10
-ALPHA -= ALPHA_CHANGE
+ALPHA += ALPHA_CHANGE
 for epoch in range(0,MAX_EPOCHS):
 	J = 0
-	ALPHA += ALPHA_CHANGE
+	ALPHA -= ALPHA_CHANGE
 	for i in range(0,NUM_INSTANCE_TO_PROCESS):
 		# huge and problematic instance
 		# if (i == 121004):

@@ -34,8 +34,9 @@ OUTPUT_W_FILE_NAME = "output_ps/output_w"+str(class_number)+".txt"
 OUTPUT_B_FILE_NAME = "output_ps/output_b"+str(class_number)+".txt"
 OUTPUT_PARAMS_FILE_NAME = "output_ps/output_params"+str(class_number)+".txt"
 OUTPUT_HISTORY_FILE_NAME = "output_ps/output_history"+str(class_number)+".txt"
-ALPHA = 0.005
+ALPHA = 0.01
 LAMBDA = 0.00
+NUM_WORKERS = 25
 
 
 
@@ -103,7 +104,6 @@ class ParameterServer(object):
             wordId = int(splitLine[1])
             vocab[word] = wordId
         f.close()
-
         VOCAB_SIZE = len(vocab)
         self.W = np.zeros((VOCAB_SIZE,), dtype=np.float)
         self.b = 0.0
@@ -118,11 +118,9 @@ class ParameterServer(object):
 
 
 @ray.remote
-def worker(*parameter_servers):
+def worker(parameter_servers, worker_index=0, num_workers=1):
     ALPHA = 0.005
     LAMBDA = 0.00
-
-
     vocab = {}
     f = open(VOCAB_FILE_NAME, "r")
     for line in f.readlines():
@@ -148,13 +146,15 @@ def worker(*parameter_servers):
     NUM_INSTANCE_TO_PROCESS = count
     file.close()
 
+    chunkSize = NUM_INSTANCE_TO_PROCESS/num_workers
+    data = data[chunkSize*worker_index: chunkSize*worker_index + chunkSize]
 
     print("Data read, %d instances, W length %d. ALPHA = %f LAMBDA = %f MAX_EPOCHS = %d" %(NUM_INSTANCE_TO_PROCESS, VOCAB_SIZE, ALPHA, LAMBDA, MAX_EPOCHS))
     print class_number
     for epoch in range(0,MAX_EPOCHS):
         J = 0
         print 'epoch done'
-        for i in range(0,NUM_INSTANCE_TO_PROCESS):
+        for i in range(0,chunkSize):
             # huge and problematic instance
             # if (i == 121004):
             #   continue
@@ -220,7 +220,7 @@ def worker(*parameter_servers):
 parameter_servers = [ParameterServer.remote(5) for _ in range(1)]
 
 # Start 2 workers.
-workers = [worker.remote(*parameter_servers) for _ in range(4)]
+workers = [worker.remote(parameter_servers, worker_index=i, num_workers=NUM_WORKERS) for i in range(NUM_WORKERS)]
 
 # Inspect the parameters at regular intervals.
 
@@ -255,8 +255,9 @@ file.close()
 
 print ("class number is " + str(class_number))
 
+output_history = []
 for epoch in range(100):
-    time.sleep(1)
+    time.sleep(0.01)
     x = ray.get([ps.get_params.remote() for ps in parameter_servers])
     W = x[0][0]
     b = x[0][1]
@@ -265,7 +266,8 @@ for epoch in range(100):
     # validation data
     
 
-
+    numCorrect = 0.0
+    numWrong = 0.0
     J_VALID = 0
     for i in range(0, NUM_INSTANCE_TO_PROCESS_VALID):
         instance = valid_data[i]
@@ -275,44 +277,49 @@ for epoch in range(100):
             y = 1
         z = sparse_mult(W, x) + b
         a = sigma(z)
+        predicted = 0
+        if a > 0.5:
+            predicted = 1
+        if(y == predicted):
+            numCorrect+=1
+        else:
+            numWrong+= 1
         if ((a<=0) or (a >= 1)):
             continue
         J_VALID += -(y*math.log(a) + (1-y)*math.log(1 - a)) + LAMBDA*np.dot(W,W)
     J_VALID = J_VALID/NUM_INSTANCE_TO_PROCESS_VALID
 
-    print ("Class "+ str(class_number) + " Epoch " + str(epoch) +  ", validation loss: "+ str(J_VALID) + ", W square = " + str(np.dot(W,W)))
-    # current_hist = {}
-    # current_hist['epoch'] = epoch
-    # current_hist['loss'] = J
-    # current_hist['validation_loss'] = J_VALID
-    # current_hist['w_square'] = str(np.dot(W,W))
+    accuracy = numCorrect/(numWrong + numCorrect)
+    print ("Class "+ str(class_number) + " Epoch " + str(epoch) +  ", validation loss: "+ str(J_VALID) + ", W square = " + str(np.dot(W,W)), " Accuracy " + str(accuracy))
+    current_hist = {}
+    current_hist['epoch'] = epoch
+    current_hist['validation_loss'] = J_VALID
+    current_hist['w_square'] = str(np.dot(W,W))
+    output_history.append(current_hist)
 
-    # output_history.append(current_hist)
+    f = open(OUTPUT_W_FILE_NAME, "w")
+    f.write(json.dumps(W.tolist()))
+    f.close()
 
-    # f = open(OUTPUT_W_FILE_NAME, "w")
-    # f.write(json.dumps(W.tolist()))
-    # f.close()
+    f = open(OUTPUT_B_FILE_NAME, "w")
+    f.write(json.dumps(b))
+    f.close()
 
-    # f = open(OUTPUT_B_FILE_NAME, "w")
-    # f.write(json.dumps(b))
-    # f.close()
+    f = open(OUTPUT_PARAMS_FILE_NAME, "w")
+    f.write("Epochs done: " + str(epoch + 1) + "\n")
+    f.write("ALPHA: " + str(ALPHA) + "\n")
+    f.write("LAMBDA: " + str(LAMBDA) + "\n")
+    f.write("Validation Loss: " + str(J_VALID) + "\n")
+    f.write("W squared: " + str(np.dot(W,W)) + "\n")
+    f.close()
 
-    # f = open(OUTPUT_PARAMS_FILE_NAME, "w")
-    # f.write("Epochs done: " + str(epoch + 1) + "\n")
-    # f.write("ALPHA: " + str(ALPHA) + "\n")
-    # f.write("LAMBDA: " + str(LAMBDA) + "\n")
-    # f.write("Number of instances: " + str(NUM_INSTANCE_TO_PROCESS) + "\n")
-    # f.write("Loss: " + str(J) + "\n")
-    # f.write("W squared: " + str(np.dot(W,W)) + "\n")
-    # f.close()
-
-    # f = open(OUTPUT_HISTORY_FILE_NAME, "w")
-    # f.write(json.dumps(output_history))
-    # f.close()
-    # # if J_VALID > J_VALID_PREVIOUS:
-    # #   print("Validation loss increased. Exiting...")
-    # #   break
-    # J_VALID_PREVIOUS = J_VALID
+    f = open(OUTPUT_HISTORY_FILE_NAME, "w")
+    f.write(json.dumps(output_history))
+    f.close()
+    # if J_VALID > J_VALID_PREVIOUS:
+    #   print("Validation loss increased. Exiting...")
+    #   break
+    J_VALID_PREVIOUS = J_VALID
 
 
 

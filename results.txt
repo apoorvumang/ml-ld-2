@@ -21,3 +21,19 @@ Exact Correct: 153631.0 Wrong: 61366.0 Accuracy: 71.46
 Not found: 21311
 Doing simple prediction...
 Simple Correct (At least 1 predicted is in true set): 199853.0 Wrong: 15144.0 Accuracy: 92.96
+
+
+
+
+Accuracy increasing test data:
+Exact Correct: 21112.0 Wrong: 8885.0 Accuracy: 70.38
+Not found: 2318
+Doing simple prediction...
+Simple Correct (At least 1 predicted is in true set): 26543.0 Wrong: 3454.0 Accuracy: 88.49
+
+
+Accuracy decreasing test data:
+Exact Correct: 21426.0 Wrong: 8571.0 Accuracy: 71.43
+Not found: 2211
+Doing simple prediction...
+Simple Correct (At least 1 predicted is in true set): 26585.0 Wrong: 3412.0 Accuracy: 88.63
